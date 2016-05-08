@@ -1,17 +1,28 @@
 module SeatSaver where
 
+import StartApp
 import Html exposing (..)
+import Effects exposing (Effects, Never)
+import Task exposing (Task)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
-import StartApp.Simple
+
+app =
+  StartApp.start
+          { init = init
+          , update = update
+          , view = view
+          , inputs = []
+          }
+
 
 main : Signal Html
 main =
-  StartApp.Simple.start
-          { model = init
-          , update = update
-          , view = view
-          }
+  app.html
+
+port tasks : Signal (Task Never ())
+port tasks =
+  app.tasks
 
 -- MODEL
 
@@ -23,28 +34,32 @@ type alias Seat =
 type alias Model =
                  List Seat
 
-init : Model
+init : (Model, Effects Action)
 init =
-  [ { seatNo = 1, occupied = False }
-  , { seatNo = 2, occupied = False }
-  , { seatNo = 3, occupied = False }
-  , { seatNo = 4, occupied = False }
-  , { seatNo = 5, occupied = False }
-  , { seatNo = 6, occupied = False }
-  , { seatNo = 7, occupied = False }
-  , { seatNo = 8, occupied = False }
-  , { seatNo = 9, occupied = False }
-  , { seatNo = 10, occupied = False }
-  , { seatNo = 11, occupied = False }
-  , { seatNo = 12, occupied = False }
-  ]
+  let
+    seats =
+      [ { seatNo = 1, occupied = False }
+      , { seatNo = 2, occupied = False }
+      , { seatNo = 3, occupied = False }
+      , { seatNo = 4, occupied = False }
+      , { seatNo = 5, occupied = False }
+      , { seatNo = 6, occupied = False }
+      , { seatNo = 7, occupied = False }
+      , { seatNo = 8, occupied = False }
+      , { seatNo = 9, occupied = False }
+      , { seatNo = 10, occupied = False }
+      , { seatNo = 11, occupied = False }
+      , { seatNo = 12, occupied = False }
+      ]
+  in
+    (seats, Effects.none)
 
 
 -- UPDATE
 
 type Action = Toggle Seat
 
-update : Action -> Model -> Model
+update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
     Toggle seatToToggle ->
@@ -54,7 +69,7 @@ update action model =
             { seatFromModel | occupied = not seatFromModel.occupied }
           else seatFromModel
        in
-         List.map updateSeat model
+         (List.map updateSeat model, Effects.none)
 
 
 -- VIEW
