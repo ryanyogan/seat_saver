@@ -1,0 +1,22 @@
+build:
+  image: bitwalker/alpine-elixir-phoenix:2.0
+  commands:
+    - apk update
+    - apk add postgresql-client
+    - mix deps.get
+    - mix deps.compile
+    - MIX_ENV=test mix do test
+
+cache:
+  mount:
+    - deps
+    - _build
+
+compose:
+  database:
+    image: postgres:9.5
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+
