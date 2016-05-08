@@ -1,5 +1,7 @@
 # SeatSaver
 
+[![Build Status](http://162.243.194.212/api/badges/ryanyogan/seat_saver/status.svg)](http://162.243.194.212/ryanyogan/seat_saver)
+
 To start your Phoenix app:
 
   * Install dependencies with `mix deps.get`
