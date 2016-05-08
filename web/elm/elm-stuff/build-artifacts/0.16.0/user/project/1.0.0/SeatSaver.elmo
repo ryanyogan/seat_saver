@@ -12,6 +12,7 @@ Elm.SeatSaver.make = function (_elm) {
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
    var _op = {};
-   var main = $Html.text("Hello from Elm");
-   return _elm.SeatSaver.values = {_op: _op,main: main};
+   var view = $Html.text("Woo hoo, I\'m in a view now");
+   var main = view;
+   return _elm.SeatSaver.values = {_op: _op,main: main,view: view};
 };
